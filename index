@@ -1,0 +1,71 @@
+<?php
+    include("dbconnect.php");
+    session_start();        
+?>
+
+<link rel="stylesheet" href="utama.css">
+<img class="universiti" src="image/universiti.png">
+
+<div class="link">
+    <a href="index.php" class="link">Home </a><span class="link"> &nbsp;|&nbsp;</span>
+    <a href="daftarmasuk.php" class="link">Daftar Masuk</a><span class="link"> &nbsp;|&nbsp;</span>
+    <a href="daftarbaru.php" class="link">Daftar Baru</a><span class="link"> &nbsp;|&nbsp;</span>
+    <a href="index.php" class="link">Keluar</a>
+</div>
+
+<div class="title">
+    <h1 class="title">SISTEM PEMANTAUAN</h1>
+    <h2 class="title">PROJEK UNIVERSITI (SPPU)</h2>   
+</div>
+
+<h2 class="title2">PROJEK UNIVERSITI :</h2>
+
+<table class="maklumat">
+    <tr class="maklumat">
+        <th class="maklumat">Bil</th>
+        <th class="maklumat">Projek</th>
+        <th class="maklumat">Program</th>
+        <th class="maklumat">Jabatan</th>
+    </tr>
+    
+    <?php
+
+    $sql = "SELECT * from laporan JOIN projek ON laporan.idprojek = projek.idprojek 
+            JOIN jabatan ON jabatan.idjabatan = projek.idjabatan
+            JOIN program ON laporan.idprogram = program.idprogram";
+    $result = mysqli_query($link, $sql);
+    
+    $j = 1;
+    
+    while($rekod = mysqli_fetch_array($result)){
+        
+    ?> 
+    
+    <tr class="maklumat">
+        <td class="maklumat2"><?php echo $j; ?></td>
+        <td class="maklumat"><?php echo $rekod['namaprojek']; ?></td>
+        <td class="maklumat"><?php echo $rekod['namaprogram']; ?></td>
+        <td class="maklumat"><?php echo $rekod['namajabatan']; ?></td>
+    </tr>
+    
+    <?php 
+    $j++;}; ?> 
+     
+</table>
+    
+    <?php
+
+    $sql = "SELECT * from laporan";
+    $result = mysqli_query($link, $sql);
+   $i=0;
+    while($rekod = mysqli_fetch_array($result)){
+        $i++;
+    }      
+      
+echo "<div class='paparan'>* Rekod yang dipaparkan adalah ".$i." yang terkini sahaja * <br>Jumlah Rekod : ".$i."</div>";
+
+ ?>
+
+<div class="footer">
+    Copyright &copy; 2021 Sistem Pemantauan Projek Universiti
+</div>
