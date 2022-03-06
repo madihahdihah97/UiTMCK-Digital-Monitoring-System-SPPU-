@@ -1,0 +1,73 @@
+<?php
+    include("dbconnect.php");
+    session_start();
+
+	if (isset($_POST["submit"])) {
+	
+		$namajabatan = $_POST["namajabatan"];
+		$gambarjabatan = $_POST["gambarjabatan"];
+
+		$sql = "insert into jabatan values('', '$namajabatan', '$gambarjabatan')";
+
+		$result = mysqli_query($link, $sql);
+        
+        
+        
+		if ($result == true)
+			echo "<br><center><script>alert('Berjaya tambah')</script></center>";
+        echo "<script>window.location ='pantaujabatan.php'</script>";
+		else
+			echo "<br><center>Ralat : $sql<br>".mysqli_error($link)."</center>";
+	}
+?>
+
+
+
+<link rel="stylesheet" href="utama.css">
+<link href="http://fonts.cdnfonts.com/css/vivaldi" rel="stylesheet">
+                
+<img class="universiti" src="image/universiti.png">
+
+<div class="link">
+    <a href="dashboardadmin.php" class="link">Home </a><span class="link"> &nbsp;|&nbsp;</span>
+    <a href="pantaujabatan.php" class="link">Keluar</a>
+</div>
+
+<div class="title">
+    <h1 class="title">TAMBAH JABATAN</h1>
+    <h3 class="title">---SISTEM PEMANTAUAN PROJEK UNIVERSITI (SPPU)---</h3>   
+</div>
+
+<form action="tambahjabatan.php" method="post">
+
+<table class="masuk3">
+   
+    <tr class="masuk">
+        <td class="masuk">Nama Jabatan :</td>
+        <td class="masuk2"><input class="masuk" required type="text" name="namajabatan"></td>
+    </tr>
+
+    <tr class="masuk">
+        <td class="masuk">Gambar : </td> 
+        <td class="masuk4">
+
+        <div class = "tambah">
+             <input class="masuk2" type="file" name="gambarjabatan" >
+        </div>
+
+        </td>
+    </tr>
+
+    <tr>
+        <td class="masuk_tambah" colspan="2">
+            <button class="daftar" type="submit" name="submit"><span class="daftar">TAMBAH</span></button>
+        </td> 
+    </tr>    
+            
+</table>
+
+</form>
+   
+<div class="footer">
+    Copyright &copy; 2021 Sistem Pemantauan Projek Universiti
+</div>
