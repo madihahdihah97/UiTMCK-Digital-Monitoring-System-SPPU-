@@ -1,0 +1,41 @@
+<?php
+    include("dbconnect.php");
+    session_start();
+    $namastaff = $_SESSION['namastaff'];
+    $nokp = $_SESSION['nokp'];
+?>
+
+<link rel="stylesheet" href="utama.css">
+<link href="http://fonts.cdnfonts.com/css/vivaldi" rel="stylesheet">
+                
+<img class="universiti" src="image/universiti.png">
+
+<div class="link">
+    <a href="dashboardpengguna.php" class="link">Home </a><span class="link"> &nbsp;|&nbsp;</span>
+    <a href="laporanjabatan.php" class="link">Laporan</a><span class="link"> &nbsp;|&nbsp;</span>
+    <a href="index.php" class="link">Keluar</a>
+</div>
+
+<div class="title">
+    <h1 class="title">DASHBOARD PENGGUNA</h1>
+    <h3 class="title">---SISTEM PEMANTAUAN PROJEK UNIVERSITI (SPPU)---</h3>   
+</div>
+
+<h2 class="masuk">Selamat Datang</h2>
+
+<table class="masuk2">
+    <tr class="masuk">
+        <td class="masuk">Nama :</td>
+        <td class="masuk2"><input class="masuk" readonly type="text" name="namastaff" value='<?php echo $namastaff;?>'></td>
+    </tr>
+    <td class="masuk">No Kad Pengenalan : </td> 
+        <td class="masuk2"><input class="masuk" readonly type= "text" name="nokp"
+            pattern = "[0-9]{12}" 
+            oninvalid = "this.setCustomValidity('Sila masukkan 12 nombor')" 
+            oninput = "this.setCustomValidity('')" value='<?php echo $nokp;?>'>
+        </td>
+</table>
+
+<div class="footer">
+    Copyright &copy; 2021 Sistem Pemantauan Projek Universiti
+</div>
