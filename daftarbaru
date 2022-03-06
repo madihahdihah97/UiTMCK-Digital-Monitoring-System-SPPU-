@@ -1,0 +1,103 @@
+<?php
+    include("dbconnect.php");
+    session_start();
+
+    if(isset($_POST['submit'])){
+        $idstaff = $_POST['idstaff'];
+        $namastaff = $_POST['namastaff'];
+        $nokp = $_POST['nokp'];
+        $password = $_POST['password'];
+        $status = $_POST['status'];
+        $jawatan = $_POST['jawatan'];
+        $idjabatan = $_POST['idjabatan'];
+        
+        $sql = "INSERT into staff VALUES ('$idstaff', '$namastaff', '$nokp', '$password', '$status', '$jawatan', '$idjabatan')";
+
+        $result = mysqli_query($link, $sql);
+        if($result){
+            echo "<script> alert('Berjaya Daftar')</script>";
+        
+            echo "<script>window.location ='daftarmasuk.php'</script>";
+        }
+        else
+            echo "ERROR: Could not able to execute $sql. " . mysqli_error($link);
+}
+
+?>
+
+<link rel="stylesheet" href="utama.css">
+<img class="universiti" src="image/universiti.png">
+
+<div class="link">
+    <a href="index.php" class="link">Home </a><span class="link"> &nbsp;|&nbsp;</span>
+    <a href="daftarmasuk.php" class="link">Daftar Masuk</a><span class="link"> &nbsp;|&nbsp;</span>
+    <a href="daftarbaru.php" class="link">Daftar Baru</a><span class="link"> &nbsp;|&nbsp;</span>
+    <a href="index.php" class="link">Keluar</a>
+</div>
+
+<div class="title">
+    <h1 class="title">PENDAFTARAN PENGGUNA BARU</h1>
+    <h3 class="title">---SISTEM PEMANTAUAN PROJEK UNIVERSITI (SPPU)---</h3>   
+</div>
+
+<form class="daftar" action="daftarbaru.php" method="post">
+
+<table class="daftar">
+    <tr>
+        <td class="daftar"><span class = "daf">IdStaff :</span> </td>
+        <td class="daftar"><input class="daftar" required type="text" name="idstaff"></td>
+        
+        <td class="daftar2"><span class = "daf">No KP :</span> </td>
+        <td class="daftar"><input class="daftar" required type="text" name="nokp" pattern = "[0-9]{12}" oninvalid = "this.setCustomerValidity('Sila masukkan 12 bombor')" oninput = "this.setCustomerValidity('')" ></td>
+        <td>
+          <span class="radio">Admin</span><input type="radio" name="status" value="Admin">
+          <span class="radio">Pengguna</span> <input type="radio" name="status" value="Pengguna"> 
+        </td>
+    </tr>
+  
+    <tr class="daftar">
+        <td class="daftar">Nama Staff :</td>
+        <td class="daftar" colspan = "4"><input class="daftar" required type="text" name="namastaff"></td>
+    </tr>
+  
+    <tr>
+        <td class="daftar" >Jawatan : </td>
+        <td class="daftar" colspan = "4"><input class="daftar" required type="text" name="jawatan"></td>
+    </tr>
+  
+    <tr>
+        <td class="daftar">Jabatan : </td>
+        <td class="daftar" colspan = "4">
+        <select class="daftar" name="idjabatan">
+            <?php
+                $sql = "select * from jabatan";
+                
+                $data = mysqli_query($link, $sql);
+                while ($jabatan = mysqli_fetch_array($data)) 
+                {
+                    echo "<option value='$jabatan[idjabatan]'>$jabatan[namajabatan]</option>";
+                }
+            ?>
+        </select></td>
+    </tr>
+  
+    <tr>
+        <td class="daftar" >Password : </td>
+        <td class="daftar" colspan = "4"><input class="daftar" required type="password" name="password"></td>
+    </tr>
+  
+    <tr>
+        <td colspan = "5">
+            <div class="buttondaftar">
+                <button class="daftar" type="submit" name="submit"><span class="daftar">DAFTAR</span></button>
+                <button class="daftar" type="reset" name="reset"><span class="daftar">RESET</span></button>
+            </div>    
+        </td>
+    </tr>
+</table>
+
+</form>
+
+<div class="footer">
+    Copyright &copy; 2021 Sistem Pemantauan Projek Universiti
+</div>
