@@ -1,0 +1,182 @@
+<?php
+    include("dbconnect.php");
+    session_start();
+
+    $idjabatan = $_GET['idjabatan'];
+    $idprojek = $_GET['idprojek'];
+
+    $_SESSION['idjabatan'] = $idjabatan;
+    $_SESSION['idprojek'] = $idprojek;
+
+    $sql = "SELECT * FROM projek";
+    $data = mysqli_query($link, $sql);
+
+    while($projek = mysqli_fetch_array($data)){
+    if ($projek['idprojek'] == $idprojek ){
+        $namaprojek = $projek['namaprojek'];}
+    }
+
+    $sql = "SELECT * FROM jabatan";
+    $data = mysqli_query($link, $sql);
+
+    while($jabatan = mysqli_fetch_array($data)){
+
+    if ($jabatan['idjabatan'] == $idjabatan ){
+        $namajabatan = $jabatan['namajabatan'];}
+    }
+
+    ?>
+
+<link rel="stylesheet" href="utama.css">
+<img class="universiti" src="image/universiti.png">
+
+<div class="link">
+    <a href="dashboardpengguna.php" class="link">Home</a><span class="link"> &nbsp;|&nbsp;</span>
+    <a href="laporanjabatan.php" class="link">Keluar</a>
+</div>
+
+<div class="title">
+    <h1 class="title">PELAPORAN PROGRAM</h1>
+    <h2 class="title">PROJEK UNIVERSITI (SPPU)</h2>   
+</div>
+
+<form  action="boranglaporan2.php" method="post">
+
+<table class="laporan">
+
+  <tr >
+    <th class="laporan" colspan="2">Nama Projek</th>
+    <th class="laporan">Keterangan</th>
+    <th class="laporan">Upload media</th>
+  </tr>
+  
+  <tr>
+    <td class="laporan" colspan="2">
+        <input class="lapor" readonly type="text" name="namaprojek" value="<?php echo $namaprojek;?>">
+    </td>
+    <td class="laporan" rowspan="3">
+        <textarea id="lapor" name="keteranganmedia" rows="5" cols="30"></textarea>
+    </td>
+    <td class="laporan2" rowspan="3">
+
+        <div class="pilih">
+         <p><input type="file"  accept="file_extension|audio/*|video/*|image/*|media_type" name="media" id="file"  onchange="loadFile(event)" style="display: none;"></p>
+         <p><label class="pilih" for="file" style="cursor: pointer;">Upload media</label></p>
+        </div>
+    </td>
+  </tr>
+  
+  <tr>
+    <th class="laporan" colspan="2">Nama Program</th>
+  </tr>
+  
+  <tr>
+    <td class="laporan" colspan="2">
+        <input class="lapor" required  type="text" name="namaprogram" >
+    </td>
+  </tr>
+  
+  <tr>
+    <th class="laporan" colspan="2">Nama Jabatan</th>
+    <th class="laporan">Laporan</th>
+    <th class="laporan">Paparan media</th>
+  </tr>
+  
+  <tr>
+    <td class="laporan" colspan="2">
+        <input class="lapor" readonly  type="text" name="namajabatan" value="<?php echo $namajabatan;?>">
+    </td>
+    <td class="laporan" rowspan="3">
+        <textarea id="lapor" name="laporan" rows="5" cols="30"></textarea>
+    </td>
+    <td class="laporan2" rowspan="3">
+        <div id="papargambar" style="display:none"> 
+            <img id="output"  width="200" height="100" />
+        </div>
+        <div id="paparvideo" style="display:none">
+        <video id="video" width="200" height="100" controls ></video>
+        </div>
+    </td>
+  </tr>
+  
+  <tr>
+    <th class="laporan">Tarikh</th>
+    <th class="laporan">Masa</th>
+  </tr>
+  
+  <tr>
+    <td class="laporan"><input class="lapor" required type="date" name="tarikh"></td>
+    <td class="laporan"><input class="lapor" required type="time" name="masa"></td>
+  </tr>
+  
+</table>
+
+<table class="aktiviti">
+    <tr class="aktiviti">
+        <td colspan="2"></td>    
+    </tr>
+    <tr class="aktiviti">
+        <th class="aktiviti" colspan="2">Tarikh</th>
+        <th class="aktiviti">Rancangan Aktiviti</th> 
+    </tr>
+    <tr class="aktiviti">
+        <td rowspan="4" colspan="2" class="aktiviti4">
+            <textarea name = "tarikhaktiviti" class="aktiviti"> </textarea>
+        </td>
+        <td rowspan="4" colspan="2" class="aktiviti5">
+            <textarea  name = "aktiviti" class="aktiviti2"></textarea>
+        </td>
+    </tr>
+    
+    <tr class="aktiviti"></tr>
+    <tr class="aktiviti"></tr>
+    <tr class="aktiviti"></tr>
+    
+    <tr>
+        <td class="aktiviti"></td>
+        <td class="aktiviti"></td>
+        <td class="aktiviti"></td>
+    </tr>
+
+  <tr class="aktiviti">   
+    <th class="aktiviti_button" colspan="3">
+        <button class="daftar" type="submit" name="submit"><span class="daftar">SIMPAN</span></button>
+        <button class="aktiviti" type="reset" name="reset"><span class="daftar">RESET</span></button>
+    </th> 
+  </tr>
+  
+</table>
+
+<input type="hidden" name = "idjabatan" value="<?php echo $idjabatan;?>">
+<input type="hidden" name = "idprojek" value="<?php echo $idprojek;?>">
+
+<script>
+    
+var loadFile = function(event) {
+    var file = event.target.files[0];
+    var filename = file.name;
+    var extension = filename.substring(filename.length - 3);
+    
+    if (extension === "mp4") {
+        document.getElementById('papargambar').style.display = 'none';
+        document.getElementById('paparvideo').style.display = 'block';
+    }
+    else {
+        document.getElementById('papargambar').style.display = 'block';
+        document.getElementById('paparvideo').style.display = 'none';
+    }
+        
+	var media = document.getElementById('output');
+	media.src = URL.createObjectURL(event.target.files[0]);
+    
+    var video = document.getElementById('video');
+	video.src = URL.createObjectURL(event.target.files[0]);
+    media.load();
+};
+
+</script>
+
+</form>
+<div class="footer">
+    Copyright &copy; 2021 Sistem Pemantauan Projek Universiti
+</div>
