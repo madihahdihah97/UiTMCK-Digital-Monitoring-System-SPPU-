@@ -1,0 +1,83 @@
+<?php
+    ob_start();
+    session_start();
+    include("dbconnect.php");
+
+if (isset($_POST['submit'])) {
+    $idstaff = $_POST['idstaff'];
+    $password = $_POST['password'];
+       
+    $jumpa = FALSE;
+	
+	if ($jumpa == FALSE) {
+		$sql = "SELECT * FROM staff";
+    	$result = mysqli_query($link, $sql);
+		while($staff = mysqli_fetch_array($result))   {
+            
+			if ($staff['idstaff'] == $idstaff && $staff["password"] == $password) {
+				$jumpa = TRUE;
+				$_SESSION['idstaff'] = $staff['idstaff'];
+				$_SESSION['namastaff'] = $staff['namastaff'];
+                $_SESSION['nokp'] = $staff['nokp'];
+				$_SESSION['status'] = $staff['status'];
+				break;
+			}
+		}
+	}
+          
+    if ($jumpa == TRUE) {
+        echo "<script> alert('Berjaya Daftar Masuk')</script>";
+        if ($_SESSION['status'] == 'Pengguna')
+            echo "<script>window.location ='dashboardpengguna.php'</script>";
+		else if ($_SESSION['status'] == 'Admin')
+			echo "<script>window.location ='dashboardadmin.php'</script>";
+    }
+    
+    else
+        echo " <script>
+        alert('kesalahan pada username atau password'); window.location='daftarmasuk.php'</script>";
+}
+
+?>
+
+<link rel="stylesheet" href="utama.css">
+<link href="http://fonts.cdnfonts.com/css/vivaldi" rel="stylesheet">
+                
+<img class="universiti" src="image/universiti.png">
+
+<div class="link">
+    <a href="index.php" class="link">Home </a><span class="link"> &nbsp;|&nbsp;</span>
+    <a href="daftarmasuk.php" class="link">Daftar Masuk</a><span class="link"> &nbsp;|&nbsp;</span>
+    <a href="daftarbaru.php" class="link">Daftar Baru</a><span class="link"> &nbsp;|&nbsp;</span>
+    <a href="index.php" class="link">Keluar</a>
+</div>
+
+<div class="title">
+    <h1 class="title">LOG MASUK</h1>
+    <h3 class="title">---SISTEM PEMANTAUAN PROJEK UNIVERSITI (SPPU)---</h3>   
+</div>
+
+<h2 class="masuk">Selamat Datang</h2>
+
+<form class="masuk" action="daftarmasuk.php" method="post">
+<table class="masuk">
+    <tr class="masuk">
+        <td class="masuk">IdStaff :</td>
+        <td class="masuk2"><input class="masuk" required type="text" name="idstaff"></td>
+    </tr>
+    <tr class="masuk">
+        <td class="masuk">Password : </td>
+        <td class="masuk2"><input class="masuk" required type="password" name="password"></td>
+    </tr>
+    <tr class="masuk">
+        <td colspan="2" class="masuk3"><b>*Jika belum mendaftar,</b><a class="masuk" href="daftarbaru.php"> <b>Daftar di sini</b></a></td>
+    </tr>  
+</table>
+    <div class="buttondaftar">
+        <button class="daftar" type="submit" name="submit"><span class="daftar">MASUK</span></button>
+    </div> 
+</form>
+
+<div class="footer">
+    Copyright &copy; 2021 Sistem Pemantauan Projek Universiti
+</div>
