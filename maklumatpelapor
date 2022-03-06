@@ -1,0 +1,61 @@
+<?php
+    include("dbconnect.php");
+    $sql = "SELECT * from laporan JOIN staff on laporan.idstaff = staff.idstaff
+    JOIN jabatan ON staff.idjabatan = jabatan.idjabatan JOIN projek ON laporan.idprojek = projek.idprojek JOIN program ON laporan.idprogram = program.idprogram";
+    
+    $result = mysqli_query($link, $sql);
+
+?>
+
+<link rel="stylesheet" href="utama.css">
+<link href="http://fonts.cdnfonts.com/css/vivaldi" rel="stylesheet">
+                
+<img class="universiti" src="image/universiti.png">
+
+<div class="link">
+    <a href="dashboardadmin.php" class="link">Home</a><span class="link"> &nbsp;|&nbsp;</span>
+    <a href="dashboardadmin.php" class="link">Keluar</a>
+</div>
+
+<div class="title">
+    <h1 class="title">MAKLUMAT PELAPOR</h1>
+    <h3 class="title">---SISTEM PEMANTAUAN PROJEK UNIVERSITI (SPPU)---</h3>   
+</div>
+
+
+
+<table class="pelapor">
+    <tr class="pelapor">
+        <th class="pelapor">IdStaff</th>
+        <th class="pelapor">Nama</th>
+        <th class="pelapor">Jawatan</th>
+        <th class="pelapor">Jabatan</th>
+        <th class="pelapor">Projek</th>
+        <th class="pelapor">Program</th>
+        <th class="pelapor">Tarikh Lapor</th>
+    </tr>
+    
+    <?php
+    while($laporan = mysqli_fetch_array($result)){
+?>
+    <tr class="pelapor">
+        <td class="pelapor"><?php echo $laporan['idstaff'];?></td>
+        <td class="pelapor"><?php echo $laporan['namastaff'];?></td>
+        <td class="pelapor"><?php echo $laporan['jawatan'];?></td>
+        <td class="pelapor"><?php echo $laporan['namajabatan'];?></td>
+        <td class="pelapor"><?php echo $laporan['namaprojek'];?></td>
+        <td class="pelapor"><?php echo $laporan['namaprogram'];?></td>
+        <td class="pelapor"><?php echo $laporan['tarikh'];?></td>
+    </tr>
+    
+    <?php }; ?>
+</table>
+
+<div class="print">
+    <a class="print" onclick="window.print()">Cetak Laporan</a>
+    <span class="link"> &nbsp;|&nbsp;</span><a href="dashboardadmin.php" class="print">Keluar</a>
+</div>
+
+<div class="footer">
+    Copyright &copy; 2021 Sistem Pemantauan Projek Universiti
+</div>
