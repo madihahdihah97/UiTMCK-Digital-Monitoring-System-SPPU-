@@ -1,0 +1,61 @@
+<?php
+    include("dbconnect.php");
+    session_start();
+?>
+
+<link rel="stylesheet" href="utama.css">
+<link href="http://fonts.cdnfonts.com/css/vivaldi" rel="stylesheet">
+                
+<img class="universiti" src="image/universiti.png">
+
+<div class="link">
+    <a href="dashboardadmin.php" class="link">Home</a><span class="link"> &nbsp;|&nbsp;</span>
+    <a href="dashboardadmin.php" class="link">Keluar</a>
+</div>
+
+<div class="title">
+    <h1 class="title">MENU SPPU JABATAN</h1>
+    <h3 class="title">---SISTEM PEMANTAUAN PROJEK UNIVERSITI (SPPU)---</h3>   
+</div>
+
+<table class = "papar_jabatan">
+<tr>
+
+<?php
+    
+    $sql = "SELECT * FROM jabatan ";
+    $data = mysqli_query($link, $sql);
+    $i = 0;
+    
+    while($jabatan = mysqli_fetch_array($data)){
+        if ($i%3 == 0){          
+            echo "<tr>
+                    <td class = 'papar_jabatan'>".$jabatan['namajabatan']."<br>
+                    <a href='pantauprojek.php?idjabatan=$jabatan[idjabatan]'><img  class = 'papar_jabatan' width =150 src= 'image/".$jabatan['gambarjabatan']."'</a></td>";
+                 } 
+                    
+        if ($i%3 == 1 ) {
+             echo "<td class = 'papar_jabatan'>".$jabatan['namajabatan']."<br> 
+                    <a href='pantauprojek.php?idjabatan=$jabatan[idjabatan]'><img  class = 'papar_jabatan' width =150 src= 'image/".$jabatan['gambarjabatan']."'</a></td>";
+                }
+        
+        if ($i%3 == 2 ) {
+                echo "<td class = 'papar_jabatan'>".$jabatan['namajabatan']."<br>
+                <a href='pantauprojek.php?idjabatan=$jabatan[idjabatan]'><img  class = 'papar_jabatan' width =150 src= 'image/".$jabatan['gambarjabatan']."'</a></td></tr>";
+              }
+        
+              $i = $i + 1;   
+     }
+  ?>
+
+    <tr>
+        <td></td>
+        <td class="masuk_tambah">
+            <a href='tambahjabatan.php'><button class="daftar"><span class="daftar">TAMBAH</span></button></a></td> 
+    </tr>
+      
+</table>
+
+<div class="footer">
+    Copyright &copy; 2021 Sistem Pemantauan Projek Universiti
+</div>
