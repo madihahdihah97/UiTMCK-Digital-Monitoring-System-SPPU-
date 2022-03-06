@@ -1,0 +1,25 @@
+<?php
+include('dbconnect.php');
+    $idstaff = $_GET['idstaff'];
+    $idprojek = $_GET['idprojek'];
+    $idprogram = $_GET['idprogram'];
+    $idmedia = $_GET['idmedia'];
+    $tarikh = $_GET['tarikh'];
+    $masa = $_GET['masa'];
+
+    $sql = "DELETE FROM laporan WHERE idstaff = '$idstaff' AND idprojek = '$idprojek' AND idprogram = '$idprogram' AND idmedia = '$idmedia' AND tarikh = '$tarikh' AND masa = '$masa'";   
+    $result = mysqli_query($link, $sql);
+
+    $sql = "DELETE FROM program WHERE idprogram = '$idprogram'";   
+    $result = mysqli_query($link, $sql);
+
+    $sql = "DELETE FROM media WHERE idmedia = '$idmedia'";   
+    $result = mysqli_query($link, $sql);
+
+    
+    if($result) 
+        echo "<script> alert('Laporan berjaya dipadam')</script>";
+    else
+        echo "<script> alert('Data tidak dipadam')</script>";
+    echo "<script>window.location ='pantaujabatan.php'</script>";
+?>
