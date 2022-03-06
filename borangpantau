@@ -1,0 +1,113 @@
+<?php
+    include("dbconnect.php");
+    session_start();
+    $idjabatan = $_GET['idjabatan'];
+    $idprojek = $_GET['idprojek'];
+
+    $sql = "SELECT * FROM projek";
+    $data = mysqli_query($link, $sql);
+
+    while($projek = mysqli_fetch_array($data)){
+    
+    if ($projek['idprojek'] == $idprojek ){
+        $namaprojek = $projek['namaprojek'];}
+    }
+
+    $sql = "SELECT * FROM jabatan";
+    $data = mysqli_query($link, $sql);
+
+    while($jabatan = mysqli_fetch_array($data)){
+   
+    if ($jabatan['idjabatan'] == $idjabatan ){
+        $namajabatan = $jabatan['namajabatan'];}
+    }
+
+    $sql = "SELECT * from laporan 
+    JOIN staff ON laporan.idstaff = staff.idstaff
+    JOIN jabatan ON staff.idjabatan = jabatan.idjabatan 
+    JOIN projek ON laporan.idprojek = projek.idprojek 
+    JOIN program ON laporan.idprogram = program.idprogram 
+    JOIN media ON laporan.idmedia = media.idmedia 
+    WHERE laporan.idprojek = $idprojek";
+    $result = mysqli_query($link, $sql);   
+    ?>
+
+<link rel="stylesheet" href="utama.css">
+<img class="universiti" src="image/universiti.png">
+
+<div class="link">
+    <a href="dashboardadmin.php" class="link">Home</a><span class="link"> &nbsp;|&nbsp;</span>
+    <a href="pantaujabatan.php" class="link">Keluar</a>
+</div>
+
+<div class="title">
+    <h1 class="title">PELAPORAN PEMANTAUAN PROJEK</h1>
+    <h2 class="title">PROJEK UNIVERSITI (SPPU)</h2>   
+</div>
+
+<table class="pantau">
+  <tr>
+    <th class="pantau2"colspan="2">Nama Projek : <?php echo $namaprojek; ?></th>
+    <th class="pantau2">Jabatan : <?php echo $namajabatan; ?></th>
+  </tr>
+</table>
+
+<table class="pantau">
+   
+    <tr class="pantau">
+        <th class="pantau">Nama Program</th>
+        <th class="pantau">Tarikh</th>
+        <th class="pantau">Masa</th>
+        <th class="pantau">Laporan</th>
+        <th class="pantau">Tarikh Aktiviti</th>
+        <th class="pantau">Rancangan Aktiviti</th>
+        <th class="pantau">Media</th>
+        <th class="pantau">Keterangan Media</th>
+        <th class="pantau">Padam</th>
+    </tr>
+    
+    <?php
+        while($laporan= mysqli_fetch_array($result)){
+    ?> 
+    
+    <tr class="pantau">
+        <td class="pantau"><?php echo $laporan['namaprogram'];?></td>
+        <td class="pantau"><?php echo $laporan['tarikh'];?></td>
+        <td class="pantau"><?php echo $laporan['masa'];?></td>
+        <td class="pantau"><?php echo $laporan['laporan'];?></td>
+        <td class="pantau"><?php echo $laporan['tarikhaktiviti'];?></td>
+        <td class="pantau"><?php echo $laporan['aktiviti'];?></td>
+            
+           
+    <?php
+            
+        if(substr($laporan['media'],-3,3) == "mp4"){
+    
+            echo"<td class='pantau'><video width='150' height='100' controls>
+            <source src='image/".$laporan['media']."' type='video/mp4'></video></td>";   
+            }
+            
+        else{
+            echo "<td class='pantau'><img width =150 height='100' src= 'image/".$laporan['media']."'></td>";
+            }
+        ?>
+      
+        <td class="pantau"><?php echo $laporan['keteranganmedia'];?></td>
+         <td class="pantau">
+            <a  href="padamborangpantau.php?idstaff=<?php echo $laporan['idstaff'];?>&idprojek=<?php echo $laporan['idprojek'];?>&idprogram=<?php echo $laporan['idprogram'];?>&idmedia=<?php echo $laporan['idmedia'];?>&tarikh=<?php echo $laporan['tarikh'];?>&masa=<?php echo $laporan['masa'];?>"onclick="return confirm('Anda pasti untuk padam data ?')">
+            <img src ="image/delete.png"></a>
+        </td>
+    </tr>
+    
+    <?php } ?>
+    
+</table>
+
+<div class="print">
+    <a class="print" onclick="window.print()">Cetak Laporan</a>
+    <span class="link"> &nbsp;|&nbsp;</span><a href="pantaujabatan.php" class="print">Keluar</a>
+</div>
+
+<div class="footer">
+    Copyright &copy; 2021 Sistem Pemantauan Projek Universiti
+</div>
