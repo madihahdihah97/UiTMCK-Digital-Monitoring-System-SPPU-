@@ -1,0 +1,50 @@
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Database: `pemantauan`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `laporan`
+--
+
+CREATE TABLE `laporan` (
+  `idstaff` varchar(4) NOT NULL,
+  `idprojek` int(11) NOT NULL,
+  `idprogram` varchar(3) NOT NULL,
+  `idmedia` varchar(5) NOT NULL,
+  `tarikh` date NOT NULL,
+  `masa` time NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `laporan`
+--
+
+INSERT INTO `laporan` (`idstaff`, `idprojek`, `idprogram`, `idmedia`, `tarikh`, `masa`) VALUES
+('U001', 1, 'K01', 'Bd01', '2022-03-08', '12:45:20');
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `laporan`
+--
+ALTER TABLE `laporan`
+  ADD PRIMARY KEY (`idstaff`,`idprojek`,`idprogram`,`idmedia`,`tarikh`,`masa`);
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
