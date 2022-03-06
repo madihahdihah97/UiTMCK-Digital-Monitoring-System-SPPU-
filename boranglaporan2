@@ -1,0 +1,77 @@
+<?php
+    include("dbconnect.php");
+    session_start();
+
+    $idjabatan = $_SESSION['idjabatan']; 
+    $idprojek = $_SESSION['idprojek'];
+
+    $sql = "SELECT * FROM projek";
+    $data = mysqli_query($link, $sql);
+
+    while($projek = mysqli_fetch_array($data)){
+        if ($projek['idprojek'] == $idprojek ){
+            $namaprojek = $projek['namaprojek'];}
+        }
+
+    $sql = "SELECT * FROM jabatan";
+    $data = mysqli_query($link, $sql);
+
+    while($jabatan = mysqli_fetch_array($data)){
+
+        if ($jabatan['idjabatan'] == $idjabatan ){
+        $namajabatan = $jabatan['namajabatan'];}
+        }
+
+    if (isset($_POST["submit"])) {
+        
+	    $namaprogram = $_POST['namaprogram'];
+        $laporan = $_POST['laporan'];
+        $tarikhaktiviti = $_POST['tarikhaktiviti'];
+        $aktiviti= $_POST['aktiviti'];
+		$sql = "insert into program values('', '$namaprogram', '$laporan', '$tarikhaktiviti', '$aktiviti')";
+		$result = mysqli_query($link, $sql);
+        
+        if ($result == true)
+            echo "";
+        else
+            echo "<br><center>Ralat : $sql<br>".mysqli_error($link)."</center>";
+        
+        $media = $_POST['media'];
+        $keteranganmedia = $_POST['keteranganmedia'];
+		$sql = "insert into media values('', '$media', '$keteranganmedia')";
+		$result = mysqli_query($link, $sql);
+        
+        if ($result == true)
+            echo "";
+        else
+            echo "<br><center>Ralat : $sql<br>".mysqli_error($link)."</center>";
+        
+        $sql = "SELECT * from program";
+        $result = mysqli_query($link, $sql);
+        while($progra = mysqli_fetch_array($result)){
+            $idprogram = $progra['idprogram'];
+        }
+    
+        $sql = "SELECT * from media";
+        $result = mysqli_query($link, $sql);
+        while($medi = mysqli_fetch_array($result)){
+        $idmedia = $medi['idmedia'];
+        }
+
+        $idstaff = $_SESSION['idstaff'];
+        $idprojek = $_POST['idprojek'];
+        $tarikh = $_POST['tarikh'];
+        $masa = $_POST['masa'];
+
+		$sql = "insert into laporan values('$idstaff', '$idprojek', '$idprogram', '$idmedia', '$tarikh', '$masa')";
+		$result = mysqli_query($link, $sql);
+        
+        if ($result == true){
+            echo "<br><center><script>alert('Berjaya tambah')</script></center>";
+            echo "<script>window.location ='laporanjabatan.php'</script>";
+        }
+        else
+            echo "<br><center>Ralat : $sql<br>".mysqli_error($link)."</center>";
+	}
+
+    ?>
